@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty_app/src/ui/global_widgets/custom_app_bar.dart';
 import 'package:rick_and_morty_app/src/ui/global_widgets/custom_drawer_menu.dart';
-import 'package:rick_and_morty_app/src/ui/pages/home/character_list.dart';
-import 'package:rick_and_morty_app/src/ui/pages/home/character_state.dart';
+import 'package:rick_and_morty_app/src/ui/pages/location/location_list.dart';
+import 'package:rick_and_morty_app/src/ui/pages/location/location_state.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class LocationPage extends ConsumerStatefulWidget {
+  const LocationPage({super.key});
 
   @override
-  HomePageState createState() => HomePageState();
+  LocationPageState createState() => LocationPageState();
 }
 
-class HomePageState extends ConsumerState<HomePage> {
+class LocationPageState extends ConsumerState<LocationPage> {
   final scrollController = ScrollController();
   bool isLoading = false;
   int page = 1;
+
   @override
   void initState() {
     super.initState();
-    final apiProvider = ref.read(characterStateProvider.notifier);
-    apiProvider.getCharacters(page);
+    final apiProvider = ref.read(locationStateProvider.notifier);
+    apiProvider.getLocations(page);
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -28,7 +29,7 @@ class HomePageState extends ConsumerState<HomePage> {
           isLoading = true;
         });
         page++;
-        await apiProvider.getCharacters(page);
+        await apiProvider.getLocations(page);
         setState(() {
           isLoading = false;
         });
@@ -45,22 +46,19 @@ class HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final characterProvider = ref.watch(characterStateProvider);
-
+    final locationProvider = ref.watch(locationStateProvider);
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Personajes'),
+      appBar: const CustomAppBar(title: 'Ubicaciones'),
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: characterProvider.characters.isNotEmpty
-            ? CharacterList(
-                apiProvider: characterProvider,
-                isLoading: isLoading,
+        child: locationProvider.locations.isNotEmpty
+            ? LocationList(
                 scrollController: scrollController,
+                isLoading: isLoading,
+                locationProvider: locationProvider,
               )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ),
+            : const Center(child: CircularProgressIndicator()),
       ),
       drawer: const CustomDrawerMenu(),
     );

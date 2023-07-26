@@ -7,6 +7,7 @@ import 'package:rick_and_morty_app/src/routes/routes.dart';
 /** Pages */
 import 'package:rick_and_morty_app/src/ui/pages/home/home_page.dart';
 import 'package:rick_and_morty_app/src/ui/pages/home/character_detail_page.dart';
+import 'package:rick_and_morty_app/src/ui/pages/location/location_page.dart';
 
 abstract class Pages {
   static const String INITIAL = Routes.HOME;
@@ -15,5 +16,6 @@ abstract class Pages {
   static final Map<String, Widget Function(BuildContext)> routes = {
     Routes.HOME: (_) => const HomePage(),
     Routes.CHARACTER_DETAIL: (_) => const CharacterDetailPage(),
+    Routes.LOCATION: (_) => const LocationPage(),
   };
 }

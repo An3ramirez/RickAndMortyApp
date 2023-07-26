@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:rick_and_morty_app/src/models/info_model.dart';
+
 CharacterResponse characterResponseFromJson(String str) =>
     CharacterResponse.fromJson(json.decode(str));
 
@@ -32,34 +34,6 @@ class CharacterResponse {
       };
 }
 
-class Info {
-  int? count;
-  int? pages;
-  String? next;
-  dynamic prev;
-
-  Info({
-    this.count,
-    this.pages,
-    this.next,
-    this.prev,
-  });
-
-  factory Info.fromJson(Map<String, dynamic> json) => Info(
-        count: json["count"],
-        pages: json["pages"],
-        next: json["next"],
-        prev: json["prev"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "pages": pages,
-        "next": next,
-        "prev": prev,
-      };
-}
-
 class Character {
   int? id;
   String? name;
@@ -67,8 +41,8 @@ class Character {
   String? species;
   String? type;
   String? gender;
-  Location? origin;
-  Location? location;
+  LocationSub? origin;
+  LocationSub? location;
   String? image;
   List<String>? episode;
   String? url;
@@ -96,11 +70,12 @@ class Character {
         species: json["species"],
         type: json["type"],
         gender: json["gender"],
-        origin:
-            json["origin"] == null ? null : Location.fromJson(json["origin"]),
+        origin: json["origin"] == null
+            ? null
+            : LocationSub.fromJson(json["origin"]),
         location: json["location"] == null
             ? null
-            : Location.fromJson(json["location"]),
+            : LocationSub.fromJson(json["location"]),
         image: json["image"],
         episode: json["episode"] == null
             ? []
@@ -127,16 +102,16 @@ class Character {
       };
 }
 
-class Location {
+class LocationSub {
   String? name;
   String? url;
 
-  Location({
+  LocationSub({
     this.name,
     this.url,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory LocationSub.fromJson(Map<String, dynamic> json) => LocationSub(
         name: json["name"],
         url: json["url"],
       );

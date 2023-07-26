@@ -3,4 +3,6 @@
 abstract class Routes {
   static const HOME = 'home';
   static const CHARACTER_DETAIL = 'characterDetail';
+  static const LOCATION = 'location';
+  static const LOCATION_DETAIL = 'locationDetail';
 }

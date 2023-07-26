@@ -1,14 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rick_and_morty_app/src/models/character_mode.dart';
+import 'package:rick_and_morty_app/src/models/character_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:rick_and_morty_app/src/models/episode_model.dart';
+import 'package:rick_and_morty_app/src/models/location_model.dart';
 
 class ApiRickAndMorty {
   final url = 'rickandmortyapi.com';
-  List<Character> characters = [];
+
   List<Episode> episodes = [];
 
   Future<List<Character>> getCharacters(int page) async {
+    List<Character> characters = [];
     final result = await http.get(Uri.https(url, "/api/character", {
       'page': page.toString(),
     }));
@@ -16,6 +18,17 @@ class ApiRickAndMorty {
 
     characters.addAll(response.results!);
     return characters;
+  }
+
+  Future<List<Location>> getLocations(int page) async {
+    List<Location> locations = [];
+    final result = await http.get(Uri.https(url, "/api/location", {
+      'page': page.toString(),
+    }));
+    final response = locationResponseFromJson(result.body);
+
+    locations.addAll(response.results!);
+    return locations;
   }
 
   Future<List<Character>> getCharacter(String name) async {

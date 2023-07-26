@@ -63,8 +63,13 @@ class CharacterList extends StatelessWidget {
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: apiProvider.hasMoreItems
+                ? const CircularProgressIndicator()
+                : const Text(
+                    'No hay mas información',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
           );
         }
       },

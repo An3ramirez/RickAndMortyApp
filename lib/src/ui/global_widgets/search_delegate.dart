@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rick_and_morty_app/src/models/character_mode.dart';
+import 'package:rick_and_morty_app/src/models/character_model.dart';
 import 'package:rick_and_morty_app/src/routes/routes.dart';
 import 'package:rick_and_morty_app/src/ui/pages/home/character_state.dart';
 

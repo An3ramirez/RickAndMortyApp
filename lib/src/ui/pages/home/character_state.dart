@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty_app/src/entities/character_status.dart';
-import 'package:rick_and_morty_app/src/models/character_mode.dart';
+import 'package:rick_and_morty_app/src/models/character_model.dart';
 import 'package:rick_and_morty_app/src/service/api_rick_and_morty.dart';
 
 class CharacterNotifier extends StateNotifier<CharacterStatus> {
@@ -10,7 +10,13 @@ class CharacterNotifier extends StateNotifier<CharacterStatus> {
 
   Future<void> getCharacters(int page) async {
     var characters = await _apiProvider.getCharacters(page);
-    state = state.copyWith(characters: characters);
+    var hasMoreItems = characters.length < 20;
+    // Combinar los personajes anteriores con los nuevos
+    var combinedCharacters = [...state.characters, ...characters];
+    state = state.copyWith(
+      characters: combinedCharacters,
+      hasMoreItems: !hasMoreItems,
+    );
   }
 
   Future<List<Character>> getCharacter(String name) async {

@@ -1,18 +1,17 @@
-import 'package:rick_and_morty_app/src/models/character_mode.dart';
-import 'package:rick_and_morty_app/src/models/episode_model.dart';
+import 'package:rick_and_morty_app/src/models/character_model.dart';
 
 class CharacterStatus {
   final List<Character> characters;
-  final List<Episode> episodes;
+  final bool hasMoreItems;
 
-  CharacterStatus({this.characters = const [], this.episodes = const []});
+  CharacterStatus({this.characters = const [], this.hasMoreItems = true});
 
   CharacterStatus copyWith({
     List<Character>? characters,
-    List<Episode>? episodes,
+    bool? hasMoreItems,
   }) =>
       CharacterStatus(
         characters: characters ?? this.characters,
-        episodes: episodes ?? this.episodes,
+        hasMoreItems: hasMoreItems ?? this.hasMoreItems,
       );
 }
