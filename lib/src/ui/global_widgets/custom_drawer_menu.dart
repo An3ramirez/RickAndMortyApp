@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rick_and_morty_app/src/routes/routes.dart';
 
-class CustomDrawerMenu extends StatefulWidget {
+class CustomDrawerMenu extends ConsumerStatefulWidget {
   const CustomDrawerMenu({super.key});
 
   @override
-  State<CustomDrawerMenu> createState() => _CustomDrawerMenuState();
+  CustomDrawerMenuState createState() => CustomDrawerMenuState();
 }
 
-class _CustomDrawerMenuState extends State<CustomDrawerMenu> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+class CustomDrawerMenuState extends ConsumerState<CustomDrawerMenu> {
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.read(selectedIndexProvider.notifier);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -31,9 +26,9 @@ class _CustomDrawerMenuState extends State<CustomDrawerMenu> {
           ),
           ListTile(
             title: const Text('Personajes'),
-            selected: _selectedIndex == 0,
+            selected: selectedIndex.state == 0,
             onTap: () {
-              _onItemTapped(0);
+              selectedIndex.state = 0;
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.HOME,
@@ -43,9 +38,9 @@ class _CustomDrawerMenuState extends State<CustomDrawerMenu> {
           ),
           ListTile(
             title: const Text('Ubicaciones'),
-            selected: _selectedIndex == 1,
+            selected: selectedIndex.state == 1,
             onTap: () {
-              _onItemTapped(1);
+              selectedIndex.state = 1;
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.LOCATION,
@@ -55,12 +50,14 @@ class _CustomDrawerMenuState extends State<CustomDrawerMenu> {
           ),
           ListTile(
             title: const Text('Episodios'),
-            selected: _selectedIndex == 2,
+            selected: selectedIndex.state == 2,
             onTap: () {
-              // Update the state of the app
-              _onItemTapped(2);
-              // Then close the drawer
-              Navigator.pop(context);
+              selectedIndex.state = 2;
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.EPISODE,
+                (_) => false,
+              );
             },
           ),
         ],
@@ -68,3 +65,5 @@ class _CustomDrawerMenuState extends State<CustomDrawerMenu> {
     );
   }
 }
+
+final selectedIndexProvider = StateProvider<int>((ref) => 0);

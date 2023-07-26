@@ -10,7 +10,7 @@ class LocationNotifier extends StateNotifier<LocationStatus> {
   Future<void> getLocations(int page) async {
     var locations = await _apiProvider.getLocations(page);
     var hasMoreItems = locations.length < 20;
-    // Combinar las ubicaciones anteriores con las nuevas utilizando el operador spread (...)
+    // Combinar las ubicaciones anteriores con las nuevas
     var combinedLocations = [...state.locations, ...locations];
     state = state.copyWith(
         locations: combinedLocations, hasMoreItems: !hasMoreItems);

@@ -26,7 +26,7 @@ class LocationList extends StatelessWidget {
           final location = locationProvider.locations[index];
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, Routes.CHARACTER_DETAIL,
+              Navigator.pushNamed(context, Routes.LOCATION_DETAIL,
                   arguments: location);
             },
             child: ListTile(
@@ -38,8 +38,10 @@ class LocationList extends StatelessWidget {
           return Center(
             child: locationProvider.hasMoreItems
                 ? const CircularProgressIndicator()
-                : const Text('No hay mas información',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                : const Text(
+                    'No hay mas información',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
           );
         }
       },

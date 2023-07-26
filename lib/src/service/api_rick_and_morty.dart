@@ -7,8 +7,6 @@ import 'package:rick_and_morty_app/src/models/location_model.dart';
 class ApiRickAndMorty {
   final url = 'rickandmortyapi.com';
 
-  List<Episode> episodes = [];
-
   Future<List<Character>> getCharacters(int page) async {
     List<Character> characters = [];
     final result = await http.get(Uri.https(url, "/api/character", {
@@ -38,13 +36,16 @@ class ApiRickAndMorty {
     return response.results!;
   }
 
-  Future<List<Episode>> getEpisodes(Character character) async {
-    episodes = [];
-    for (var i = 0; i < character.episode!.length; i++) {
-      final result = await http.get(Uri.parse(character.episode![i]));
-      final response = episodeFromJson(result.body);
-      episodes.add(response);
-    }
+  Future<List<Episode>> getEpisodes(int page) async {
+    List<Episode> episodes = [];
+
+    final result = await http.get(Uri.https(url, 'api/episode/', {
+      'page': page.toString(),
+    }));
+
+    final response = episodeResponseFromJson(result.body);
+    episodes.addAll(response.results!);
+
     return episodes;
   }
 }
