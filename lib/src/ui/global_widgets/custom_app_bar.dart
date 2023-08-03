@@ -4,8 +4,11 @@ import 'package:rick_and_morty_app/src/ui/global_widgets/search_delegate.dart';
 
 class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final String title;
+  final bool searchIconVisible;
 
-  const CustomAppBar({Key? key, required this.title}) : super(key: key);
+  const CustomAppBar(
+      {Key? key, required this.title, this.searchIconVisible = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,17 +17,22 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
         title,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
       centerTitle: true,
       actions: <Widget>[
-        Container(
-          margin: const EdgeInsets.only(right: 10),
-          child: InkWell(
-            onTap: () {
-              showSearch(context: context, delegate: SearchCharacter(ref));
-            },
-            child: const Icon(Icons.search),
-          ),
-        )
+        searchIconVisible
+            ? Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: InkWell(
+                  onTap: () {
+                    showSearch(
+                        context: context, delegate: SearchCharacter(ref));
+                  },
+                  child: const Icon(Icons.search),
+                ),
+              )
+            : Container()
       ],
     );
   }
