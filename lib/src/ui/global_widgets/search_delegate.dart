@@ -76,10 +76,11 @@ class SearchCharacter extends SearchDelegate {
               },
               title: Text(character.name!),
               leading: Hero(
-                  tag: character.id!,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(character.image!),
-                  )),
+                tag: character.id!,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(character.image!),
+                ),
+              ),
             );
           },
         );

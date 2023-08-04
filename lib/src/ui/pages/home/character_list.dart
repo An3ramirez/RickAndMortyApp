@@ -17,6 +17,7 @@ class CharacterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const characterStatus = {'Dead': 'Muerto', 'Alive': 'Vivo'};
+
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -37,16 +38,49 @@ class CharacterList extends StatelessWidget {
                   arguments: character);
             },
             child: Card(
-              color: character.status == 'Dead' ? Colors.red : Colors.blue[800],
+              color: character.status == 'Dead'
+                  ? Colors.red
+                  : const Color(0xFF8400FF),
               child: Column(
                 children: [
                   Hero(
                     tag: character.id!,
-                    child: FadeInImage(
-                      placeholder: const AssetImage(
-                        'assets/images/portal-rick-and-morty.gif',
-                      ),
-                      image: NetworkImage(character.image!),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                          child: FadeInImage(
+                            placeholder: const AssetImage(
+                              'assets/images/portal-rick-and-morty.gif',
+                            ),
+                            image: NetworkImage(character.image!),
+                          ),
+                        ),
+                        if (character.status == 'Dead')
+                          Positioned(
+                            top: 15,
+                            right: -20,
+                            child: Transform.rotate(
+                              angle: 45 * 3.141592653589793 / 180,
+                              child: Material(
+                                elevation: 5,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                  ),
+                                  color: Colors.red,
+                                  child: const Text(
+                                    'Dead',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                   Text(
