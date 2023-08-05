@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rick_and_morty_app/src/providers/theme_provider.dart';
 import 'package:rick_and_morty_app/src/routes/routes.dart';
 
 class CustomDrawerMenu extends ConsumerStatefulWidget {
@@ -13,16 +14,42 @@ class CustomDrawerMenuState extends ConsumerState<CustomDrawerMenu> {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = ref.read(selectedIndexProvider.notifier);
+    final themeModeState = ref.watch(themeProvider);
+    bool isDarkMode = themeModeState == Brightness.dark;
+    final colors = Theme.of(context).colorScheme;
 
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: colors.background,
             ),
-            child: Text('Rick And Morty'),
+            child: Column(
+              children: [
+                const Text(
+                  'Rick And Morty App',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                const SizedBox(height: 40),
+                Row(
+                  children: [
+                    Switch(
+                      value: isDarkMode,
+                      onChanged: (value) {
+                        ref.read(themeProvider.notifier).changeTheme(value);
+                      },
+                    ),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 1000),
+                      child:
+                          Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
           ListTile(
             title: const Text('Personajes'),
